@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Quick-Finance</string>
+
+    <string name="hello_world">Hello vlad!</string>
+    <string name="action_settings">Settings</string>
+    <string name="text_rate">rate</string>
+    <string name="text_byr">BYR</string>
+    <string name="rates_list">Курсы валют</string>
+</resources>
