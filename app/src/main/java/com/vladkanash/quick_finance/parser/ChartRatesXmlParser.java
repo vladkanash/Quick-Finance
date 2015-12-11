@@ -20,7 +20,7 @@ import java.util.Locale;
 /**
  * Created by vladkanash on 12/9/15.
  */
-public class ChartRatesXmlParser {
+public class ChartRatesXmlParser implements XmlParser{
 
     private static final String CURRENCY_TAG = "Currency";
     private static final String RECORD_TAG = "Record";
@@ -29,6 +29,7 @@ public class ChartRatesXmlParser {
 
     private static final String ns = null;
 
+    @Override
     public List parse(InputStream in) throws XmlPullParserException, IOException {
         try {
             XmlPullParser parser = Xml.newPullParser();

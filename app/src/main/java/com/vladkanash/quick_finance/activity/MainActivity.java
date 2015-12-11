@@ -49,4 +49,8 @@ public class MainActivity extends AppCompatActivity {
     public void showCharts(View view) {
         startActivity(new Intent(this, RateChartActivity.class));
     }
+
+    public void showRefinancingRate(View view) {
+        startActivity(new Intent(this, RefinancingRateActivity.class));
+    }
 }

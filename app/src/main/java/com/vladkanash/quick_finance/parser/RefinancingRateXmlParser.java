@@ -2,34 +2,30 @@ package com.vladkanash.quick_finance.parser;
 
 import android.util.Xml;
 
-import com.vladkanash.quick_finance.entity.ExchangeRate;
+import com.vladkanash.quick_finance.entity.RefinancingRate;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Created by vladkanash on 12/9/15.
+ * Created by vladkanash on 12/11/15.
  */
-public class ExchangeRatesXmlParser implements XmlParser {
+public class RefinancingRateXmlParser implements XmlParser {
 
-    private static final String ID_ATTR = "Id";
-    private static final String NAME_TAG = "Name";
-    private static final String CHARCODE_TAG = "CharCode";
-    private static final String NUMCODE_TAG = "NumCode";
-    private static final String SCALE_TAG = "Scale";
-    private static final String RATE_TAG = "Rate";
-    private static final String CURRENCY_TAG = "Currency";
-    private static final String EXRATES_TAG = "DailyExRates";
+    private static final String REFRATE_TAG = "RefRate";
+    private static final String ITEM_TAG = "Item";
+    private static final String DATE_TAG = "Date";
+    private static final String VALUE_TAG = "Value";
 
     private static final String ns = null;
 
+    private RefinancingRate entry;
+
     @Override
-    public List parse(InputStream in) throws XmlPullParserException, IOException {
+    public Object parse(InputStream in) throws XmlPullParserException, IOException {
         try {
             XmlPullParser parser = Xml.newPullParser();
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
@@ -41,10 +37,9 @@ public class ExchangeRatesXmlParser implements XmlParser {
         }
     }
 
-    private List readFeed(XmlPullParser parser) throws XmlPullParserException, IOException {
-        List entries = new ArrayList();
+    private Object readFeed(XmlPullParser parser)  throws XmlPullParserException, IOException {
 
-        parser.require(XmlPullParser.START_TAG, ns, EXRATES_TAG);
+        parser.require(XmlPullParser.START_TAG, ns, REFRATE_TAG);
         while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
                 continue;
@@ -52,23 +47,19 @@ public class ExchangeRatesXmlParser implements XmlParser {
 
             String name = parser.getName();
             // Starts by looking for the entry tag
-            if (name.equals(CURRENCY_TAG)) {
-                int id = Integer.valueOf(parser.getAttributeValue(null, ID_ATTR));
-                entries.add(readEntry(parser, id));
+            if (name.equals(ITEM_TAG)) {
+                entry = readEntry(parser);
             } else {
                 skip(parser);
             }
         }
-        return entries;
+        return entry;
     }
 
-    private ExchangeRate readEntry(XmlPullParser parser, int id) throws XmlPullParserException, IOException {
-        parser.require(XmlPullParser.START_TAG, ns, CURRENCY_TAG);
-        String charCode = null;
-        String rateName = null;
-        int numCode = 0;
-        int scale = 0;
-        double rate = 0.0;
+    private RefinancingRate readEntry(XmlPullParser parser) throws XmlPullParserException, IOException {
+        parser.require(XmlPullParser.START_TAG, ns, ITEM_TAG);
+        String date = null;
+        int rate = 0;
 
         while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
@@ -76,29 +67,19 @@ public class ExchangeRatesXmlParser implements XmlParser {
             }
             String name = parser.getName();
             switch (name) {
-                case NUMCODE_TAG:
-                    numCode = Integer.valueOf(readProperty(parser, NUMCODE_TAG));
+                case VALUE_TAG:
+                    rate = Integer.valueOf(readProperty(parser, VALUE_TAG));
                     break;
-                case CHARCODE_TAG:
-                    charCode = readProperty(parser, CHARCODE_TAG);
-                    break;
-                case SCALE_TAG:
-                    scale = Integer.valueOf(readProperty(parser, SCALE_TAG));
-                    break;
-                case NAME_TAG:
-                    rateName = readProperty(parser, NAME_TAG);
-                    break;
-                case RATE_TAG:
-                    rate = Double.valueOf(readProperty(parser, RATE_TAG));
+                case DATE_TAG:
+                    date = readProperty(parser, DATE_TAG);
                     break;
                 default:
                     skip(parser);
                     break;
             }
         }
-        return new ExchangeRate(id, numCode, scale, charCode, rateName, rate);
+        return new RefinancingRate(date, rate);
     }
-
 
     private String readProperty(XmlPullParser parser, String propName) throws IOException, XmlPullParserException {
         parser.require(XmlPullParser.START_TAG, ns, propName);

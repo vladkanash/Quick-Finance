@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    tools:context=".activity.RefinancingRateActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/refinancing_rate_label"
+        android:id="@+id/rate_label"
+        android:layout_gravity="center_horizontal"
+        android:textSize="@dimen/refinancing_rate_label"
+        android:textColor="@color/refinancing_rate_label_color"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/rate_text"
+        android:layout_gravity="center_horizontal"
+        android:padding="25dp"
+        android:textColor="@color/rate"
+        android:textSize="@dimen/refinancing_rate"/>
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/refinancing_rate_date"
+        android:id="@+id/date_text"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal" />
+</LinearLayout>

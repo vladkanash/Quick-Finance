@@ -6,4 +6,6 @@
     <string name="text_rate">rate</string>
     <string name="text_byr">BYR</string>
     <string name="rates_list">Курсы валют</string>
+    <string name="refinancing_rate_label">Текущая ставка рефинансирования</string>
+    <string name="refinancing_rate_date">date</string>
 </resources>

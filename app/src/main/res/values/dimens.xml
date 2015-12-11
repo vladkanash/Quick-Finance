@@ -8,4 +8,7 @@
     <dimen name="rate">18sp</dimen>
     <dimen name="year">12sp</dimen>
 
+    <dimen name="refinancing_rate">130sp</dimen>
+    <dimen name="refinancing_rate_label">16sp</dimen>
+
 </resources>
